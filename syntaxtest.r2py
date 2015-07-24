@@ -1,5 +1,5 @@
 vim: set filetype=prolog:
 vim: set ft=py:
 
-for x in range(10):
-  print(x)
+def func():
+  pass
