@@ -25,7 +25,7 @@
 getsensor = dy_import_module('getsensor.r2py')
 sensevislib = dy_import_module('sensevislib.r2py')
 dy_import_module_symbols('matrixmath.r2py')
-dy_import_module_symbols('mathextra.r2py')
+dy_import_module_symbols('math.r2py')
 
 
 XYZ = 3
