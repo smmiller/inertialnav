@@ -1,5 +1,4 @@
-vim: set filetype=prolog:
-vim: set ft=py:
+-*- mode: py;-*-
 
 def func():
   pass
