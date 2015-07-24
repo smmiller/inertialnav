@@ -123,9 +123,9 @@ def process(sensordata, location):
     data['gyroAngle'] = [pitch, roll, azimuth]
    
     # Euler rotation matrices for orienting in the phone's frame of reference 
-    rotationx = [[1, 0, 0], [0, cos(pitch), -sin(pitch)], [0, sin(pitch), cos(pitch)]]
-    rotationy = [[cos(roll), 0, sin(roll)], [0, 1, 0], [-sin(roll), 0, cos(roll)]]
-    rotationz = [[cos(azimuth), -sin(azimuth), 0], [sin(azimuth), cos(azimuth), 0], [0, 0, 1]]
+    rotationx = [[1, 0, 0], [0, math_cos(pitch), -math_sin(pitch)], [0, math_sin(pitch), math_cos(pitch)]]
+    rotationy = [[math_cos(roll), 0, math_sin(roll)], [0, 1, 0], [-math_sin(roll), 0, math_cos(roll)]]
+    rotationz = [[math_cos(azimuth), -math_sin(azimuth), 0], [math_sin(azimuth), math_cos(azimuth), 0], [0, 0, 1]]
 
     # Combined rotation transformation
     rotation = matrix_multiply(matrix_multiply(rotationz, rotationy), rotationx)
