@@ -154,3 +154,5 @@ if callfunc == 'initialize':
   log('Web app on port', port, '\n')
   stophandler = registerhttpcallback('http://127.0.0.1:'+str(port), serve)
   
+
+# syntax highlight: -*- mode: python;-*-
