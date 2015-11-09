@@ -22,7 +22,7 @@ dy_import_module_symbols('matrix.r2py')
 
 
 class KalmanFilterError(RepyException):
-  """Error for unimplemented Kalman functions in child classes"""
+  """Error for unimplemented Kalman methods in child classes"""
 
 
 class ExtendedKalmanFilter():
