@@ -32,7 +32,7 @@ class ExtendedKalmanFilter():
     self._error = error
     self._process_covariance = process_covariance
     self._measurement_covariance = measurement_covariance
-
+    self._time = 0
 
   # Computes the a priori state estimate,
   # i.e. the state predicted by the system model.
@@ -63,14 +63,14 @@ class ExtendedKalmanFilter():
   # *** Note ***
   # The implementation of this "abstract" method is left as an exercise
   # for the caller since it is dependent on the state definition.
-  def _compute_h(self):
-    raise KalmanFilterError("Abstract method _compute_h(self) not defined in ExtendedKalmanFilter child class.")
+  def _compute_expected_measurements(self):
+    raise KalmanFilterError("Abstract method _compute_expected measurements(self) not defined in ExtendedKalmanFilter child class.")
   
 
   # Computes the a posteriori state estimate,
   # i.e. the measurement correct state.
   def _compute_a_posteriori_state(self, gain, measurements):
-    self._state = matrix_add(self._state, matrix_multiply(gain, matrix_minus(measurements, self._compute_h())))
+    self._state = matrix_add(self._state, matrix_multiply(gain, matrix_minus(measurements, self._compute_expected_measurements())))
 
 
   # Computes the error covariance in the corrected state.
@@ -106,7 +106,9 @@ class ExtendedKalmanFilter():
   #
   # *** Note ***
   # This is the only method that should be directly called by child classes.
-  def _update(self, input_vector, measurements, timestep):
+  def _update(self, input_vector, measurements, time):
+    timestep = time - self._time
+    self._time = time
     # Project ahead?
     if input_vector:
       transition_matrix = self._compute_transition_matrix(input_vector, timestep)
