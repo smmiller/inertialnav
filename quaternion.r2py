@@ -31,13 +31,20 @@ def quaternion_multiply(q1, q2):
   return q
 
 
+# Builds a skew symmetric 
+# matrix for axes or angles
+def quaternion_skew_symmetric(x, y, z):
+  return [[0, -z, y], [z, 0, -x], [-y, x, 0]]
+
+
 # Builds a matrix that takes the derivative of a 
 # quaternion when multiplied
 def quaternion_differentiator(roll, pitch, yaw):
-  omega = [[0, -yaw, pitch, roll], \
-           [yaw, 0, -roll, pitch], \
-           [-pitch, roll, 0, yaw], \
-           [-roll, -pitch, -yaw, 0]]
+  omega = quaternion_skew_symmetric(roll, pitch, yaw)
+  omega[0].append(roll)
+  omega[1].append(pitch)
+  omega[2].append(yaw)
+  omega.append([-roll, -pitch, -yaw, 0])
   return omega
 
 
