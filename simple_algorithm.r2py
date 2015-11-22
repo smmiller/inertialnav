@@ -117,22 +117,11 @@ def process(sensordata):
     linear_acc = matrix_add(acc, minus_gravity)
 
     # The heading will be the projection of the 
-    # linear acc onto the x-y plane. This means
-    # taking the cross product of a vector normal to
-    # the x-y plane, or trivially the z-axis, with 
-    # the linear acc vector, and then crossing the
-    # result once more with the z-axis.
-    #
-    # The linear acc must be normalized first   
-    acc_norm = matrix_vector_norm(linear_acc)
-    unit_acc = matrix_scale(linear_acc, 1.0 / acc_norm)
-    # Calculate heading vector
-    heading = matrix_vector_cross_product(matrix_vector_cross_product(z_axis,  unit_acc), z_axis)
-    # The magnitude of the heading is the magnitude of the linear acc
-    # times the sin of the angle between the linear acc and the z axis 
-    sin_theta = (1 - ((matrix_vector_dot_product(unit_acc, z_axis) / acc_norm) ** 2)) ** 0.5
-    heading = matrix_scale(heading, acc_norm * sin_theta)
-
+    # linear acc onto the x-y plane. This is obtained
+    # by subtracting the projection of the linear acc
+    # onto the z-axis from the linear acc vector.
+    minus_z_projection = matrix_scale(z_axis, -matrix_dot_product(linear_acc, z_axis))
+    heading = matrix_add(linear_acc, minus_z_projection)
     ################################# ENDOF CRITICAL REGION ###################################
     lock.release()
 
