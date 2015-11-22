@@ -29,31 +29,32 @@ lock = createlock()
 
 start = 0
 
+# Initial angles for pitch, roll, yaw
 p_init = 0
 r_init = 0
 y_init = 0
 
+# A vector representing the
+# projected vector of motion
+# onto the x-y plane
+heading = matrix_init(3, 1)
+
 # start all sensors at ~167Hz
 getsensor.start_sensing(1, 6)
 
-
-gsum = [0, 0, 0]
-gcnt = 0
+phone_gravity = [[0, 0, 0]]
+num_samples = 0
 # Phone should be stationary
 # while calibrating gravity
 log('Calibrating gravity...\n')
-while gcnt < 100:
-  g = getsensor.get_acceleration()
-  # add up each component
-  for axis in range(XYZ):
-    gsum[axis] += g[axis]
-  gcnt += 1
+while num_samples < 100:
+  # add up each gravity sample
+  phone_gravity = matrix_add(phone_gravity, [getsensor.get_acceleration()])
+  num_samples += 1
 
-# set gravity as the avg for each component
-phone_gravity = [[gsum[0]], [gsum[1]], [gsum[2]]]
+# set gravity as the avg, and negate for later subtraction
+minus_phone_gravity = matrix_transpose(matrix_scale(phone_gravity, -1.0 / num_samples))
 log('Gravity: ', gravity, '\n')
-
-minus_phone_gravity = matrix_scale(phone_gravity, -1)
 
 
 
@@ -67,7 +68,6 @@ log('Starting...')
 # thread so we don't slow down the polling rate. 
 while True:
   createthread(process(getsensor.get_sensors()))
-
   
 
 # processes sensor data to estimate position
