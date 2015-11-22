@@ -89,6 +89,13 @@ def matrix_dot_product(left, right):
 
 
 
+# Returns the cross product of two 3x3 vectors
+def matrix_vector_cross_product(u, v):
+  return [[u[1] * v[2] - u[2] * v[1]], \
+          [u[2] * v[0] - u[0] * v[2]], \
+          [u[0] * v[1] - u[1] * v[0]]]
+
+
 # Initializes a nxn Identity matrix
 def matrix_identity(n):
   matrix = matrix_init(n, n)
